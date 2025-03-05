@@ -3,7 +3,7 @@ import { GetMoviesResponse, ParsedMoviesResponse, TransformedMovie } from '@/typ
 
 const instance = axios.create({
   baseURL: 'https://api.themoviedb.org/3/discover/movie',
-})
+});
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
 const IMAGE_SIZE = 'w300';
 
@@ -16,7 +16,7 @@ export default {
       },
       transformResponse: [
         (response): GetMoviesResponse => {
-          const parsedResponse: ParsedMoviesResponse = JSON.parse(response)
+          const parsedResponse: ParsedMoviesResponse = JSON.parse(response);
           const transformedMovies: TransformedMovie[] = parsedResponse.results.map(
             (movie) => ({
               key: movie.id,
@@ -31,9 +31,9 @@ export default {
                 alt: movie.title,
               },
             }),
-          )
-          return { movies: transformedMovies }
+          );
+          return { movies: transformedMovies };
         },
       ],
     })
-}
+};

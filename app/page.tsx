@@ -1,8 +1,8 @@
-import axiosConfig from '../api/axiosConfig'
+import axiosConfig from '../api/axiosConfig';
 
 export default async function Home() {
-  const response = await axiosConfig.getMoviesData()
-  const movies = response.data.movies
+  const response = await axiosConfig.getMoviesData();
+  const movies = response.data.movies;
 
   return (
     <div className="container mx-auto">
@@ -19,5 +19,5 @@ export default async function Home() {
         Footer
       </footer>
     </div>
-  )
+  );
 }
