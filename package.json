@@ -15,10 +15,15 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.26.8",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@typescript-eslint/eslint-plugin": "^8.26.0",
+    "@typescript-eslint/parser": "^8.26.0",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react": "^7.37.4",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
