@@ -3,12 +3,16 @@ export interface ParsedMovieResponse {
   title: string;
   original_language: string;
   popularity: number;
-  vote_average: number;
+  vote_average: string;
   vote_count: number;
   release_date: string;
   poster_path: string;
   backdrop_path: string;
   overview: string;
+  genres: {
+    id: number;
+    name: string
+  }[];
 }
 
 export interface TransformedMovie {
@@ -16,7 +20,7 @@ export interface TransformedMovie {
   title: string;
   language: string;
   popularity: number;
-  voteAverage: number;
+  voteAverage: string;
   voteCount: number;
   releaseDate: string;
   poster: {
@@ -27,7 +31,8 @@ export interface TransformedMovie {
     src: string;
     alt: string;
   };
-  overview?: string;
+  overview: string;
+  genres: string[];
 }
 
 export interface GetMoviesResponse {
