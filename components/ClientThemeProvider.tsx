@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -14,10 +13,7 @@ const theme = createTheme({
             primary: "#ededed",
         },
         primary: {
-            main: "#1976d2",
-        },
-        secondary: {
-            main: "#dc004e",
+            main: "#075985",
         },
     },
     typography: {

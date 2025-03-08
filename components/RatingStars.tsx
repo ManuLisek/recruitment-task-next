@@ -1,13 +1,11 @@
 "use client";
 
-import React from "react";
 import { RatingStarsProps } from '@/types/componentTypes';
 import StarIcon from "@mui/icons-material/Star";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
-
-const RatingStars: React.FC<RatingStarsProps> = ({ rating }) => {
+const RatingStars = ({ rating }: RatingStarsProps) => {
     const ratingInStars = rating / 2;
     const fullStars = Math.floor(ratingInStars);
     const hasHalfStar = ratingInStars - fullStars >= 0.5;

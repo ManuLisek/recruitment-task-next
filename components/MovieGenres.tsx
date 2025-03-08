@@ -1,9 +1,11 @@
 import AdjustIcon from '@mui/icons-material/Adjust';
-import React from 'react';
+import { TransformedMovie } from '@/types/movieTypes';
 
-import { MovieGenresProps } from '@/types/componentTypes';
+interface MovieGenresProps {
+    movie: TransformedMovie;
+}
 
-const MovieGenres: React.FC<MovieGenresProps> = ({ movie }) => {
+const MovieGenres = ({ movie }: MovieGenresProps) => {
     return (
         <p className="mb-10 text-rose-600 flex flex-wrap gap-4">
             {movie.genres.map((genre: string, i: number) => (

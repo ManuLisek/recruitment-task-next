@@ -4,6 +4,7 @@ import axiosConfig from '../../../api/axiosConfig';
 import { MovieParams } from '@/types/componentTypes';
 import RatingStars from '@/components/RatingStars';
 import MovieGenres from '@/components/MovieGenres';
+import BackButton from '@/components/BackButton';
 
 export default async function MoviePage({ params }: MovieParams) {
     const { id } = params;
@@ -14,7 +15,7 @@ export default async function MoviePage({ params }: MovieParams) {
 
     return (
         <div className="container flex flex-col gap-6 mx-auto p-4">
-            <div className="flex gap-12 max-lg:flex-col max-lg:items-center">
+            <div className="flex gap-12 mb-10 max-lg:flex-col max-lg:items-center">
                 <img src={movie.poster.src} alt={movie.poster.alt} className='max-lg:max-w-[500px] max-sm:w-full' />
                 <div>
                     <h1 className="text-3xl font-bold mb-10">{movie.title}</h1>
@@ -43,6 +44,9 @@ export default async function MoviePage({ params }: MovieParams) {
                         ))}
                     </ul>
                 </div>
+            </div>
+            <div className="mx-auto">
+                <BackButton />
             </div>
         </div>
     );
