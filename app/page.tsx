@@ -1,3 +1,5 @@
+"use server";
+
 import axiosConfig from '../api/axiosConfig';
 import FilterableMovieList from '@/components/FilterableMovieList';
 import { TransformedMovie, Genre } from '@/types/movieTypes';
