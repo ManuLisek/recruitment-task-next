@@ -30,7 +30,6 @@ export interface TransformedMovie {
     alt: string;
   };
   overview: string;
-  genre_ids: number[];
   genres: { id: number; name: string }[];
 }
 
