@@ -2,15 +2,14 @@
 
 import Image from "next/image";
 import axiosConfig from '../../../api/axiosConfig';
-import { MovieParams } from '@/types/componentTypes';
 import RatingStars from '@/components/RatingStars';
 import MovieGenres from '@/components/MovieGenres';
 import BackButton from '@/components/BackButton';
 import { TransformedActor } from '@/types/actorTypes';
 
-export default async function MoviePage({ params }: MovieParams) {
+export default async function MoviePage({ params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const movieResponse = await axiosConfig.getMovieData(Number(id));
     const actorsResponse = await axiosConfig.getActors(Number(id));
     const movie = movieResponse.data.movie;
@@ -24,14 +23,17 @@ export default async function MoviePage({ params }: MovieParams) {
             alt={movie.poster.alt}
             width={500}
             height={816}
-            className='max-lg:max-w-[500px] max-sm:w-full'
+            priority
+            style={{ height: "auto" }}
           />
           <div>
             <h1 className="text-3xl font-bold mb-10">{movie.title}</h1>
             <div className="flex justify-between gap-2 mb-10 text-yellow-400 font-bold uppercase max-md:flex-col">
               <span className="flex items-center gap-2 max-sm:flex-col max-sm:items-start">
                 <RatingStars rating={movie.voteAverage} />
-                <span className="lowercase">{movie.voteAverage.toString().slice(0, 3)} / {movie.voteCount} votes</span>
+                <span className="lowercase">
+                  {movie.voteAverage.toString().slice(0, 3)} / {movie.voteCount} votes
+                </span>
               </span>
               <span>{movie.language} / {movie.releaseDate}</span>
             </div>
@@ -48,6 +50,7 @@ export default async function MoviePage({ params }: MovieParams) {
                       src={actor.profile.src}
                       alt={actor.profile.alt}
                       fill
+                      sizes="(max-width: 768px) 100vw, 226px"
                       className="object-cover rounded"
                     />
                   </div>

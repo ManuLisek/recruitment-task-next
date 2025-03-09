@@ -4,11 +4,12 @@ import axiosConfig from '../api/axiosConfig';
 import FilterableMovieList from "@/components/FilterableMovieList";
 import { TransformedMovie, Genre } from "@/types/movieTypes";
 
-export default async function Home({ searchParams }: { searchParams: { genre?: string, page?: string, query?: string } }) {
+export default async function Home({ searchParams }: { searchParams: Promise<{ genre?: string, page?: string, query?: string }> }) {
   try {
-    const selectedGenreId = searchParams.genre ? Number(searchParams.genre) : undefined;
-    const currentPage = searchParams.page ? Number(searchParams.page) : 1;
-    const query = searchParams.query ? searchParams.query : undefined;
+    const params = await searchParams;
+    const selectedGenreId = params.genre ? Number(params.genre) : undefined;
+    const currentPage = params.page ? Number(params.page) : 1;
+    const query = params.query ? params.query : undefined;
 
     const moviesResponse = await axiosConfig.getMoviesData(
       selectedGenreId ? [selectedGenreId] : undefined,
