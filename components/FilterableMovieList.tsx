@@ -1,28 +1,36 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import MenuIcon from "@mui/icons-material/Menu";
-import AdjustIcon from '@mui/icons-material/Adjust';
-import Pagination from '@mui/material/Pagination';
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { TransformedMovie, Genre } from "@/types/movieTypes";
+import MenuIcon from "@mui/icons-material/Menu";
+import Pagination from "@mui/material/Pagination";
 import MovieCard from "./MovieCard";
+import MovieSearch from "./MovieSearch";
+import Sidebar from "./Sidebar";
+import { FilterableMovieListProps } from "@/types/componentTypes";
 
-interface FilterableMovieListProps {
-  movies: TransformedMovie[];
-  genres: Genre[];
-  selectedGenreId?: number;
-  currentPage: number;
-}
-
-const FilterableMovieList = ({ movies, genres, selectedGenreId, currentPage }: FilterableMovieListProps) => {
+const FilterableMovieList: React.FC<FilterableMovieListProps> = ({
+  movies,
+  genres,
+  selectedGenreId,
+  currentPage,
+  initialQuery,
+}) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState(initialQuery);
   const router = useRouter();
+
+  const handleSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const genreParam = selectedGenreId ? `&genre=${selectedGenreId}` : "";
+    const queryParam = searchInput ? `&query=${encodeURIComponent(searchInput)}` : "";
+    router.push(`/?page=1${genreParam}${queryParam}`);
+  };
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     const genreParam = selectedGenreId ? `&genre=${selectedGenreId}` : "";
-    router.push(`/?page=${page}${genreParam}`);
+    const queryParam = searchInput ? `&query=${encodeURIComponent(searchInput)}` : "";
+    router.push(`/?page=${page}${genreParam}${queryParam}`);
   };
 
   return (
@@ -34,35 +42,12 @@ const FilterableMovieList = ({ movies, genres, selectedGenreId, currentPage }: F
         </button>
       </div>
       <div className="relative flex md:flex-row gap-8">
-        <aside
-          className={`
-            fixed inset-y-0 left-0 z-20 w-3/4 p-4 bg-zinc-900 shadow transform transition-transform duration-300 ease-in-out 
-            ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} md:static md:w-1/4 md:translate-x-0 md:bg-transparent md:shadow-none
-          `}
-        >
-          <h2 className="text-xl font-bold mb-4">Genres</h2>
-          <ul className="space-y-2">
-            <li>
-              <Link href="/" className={`block ${!selectedGenreId ? "text-rose-600" : "text-sky-800"}`}>
-                All
-              </Link>
-            </li>
-            {genres.map((genre) => (
-              <li key={genre.id}>
-                <Link
-                  href={`/?genre=${genre.id}`}
-                  className={`block ${selectedGenreId === genre.id ? "text-rose-600" : "text-sky-800"}`}
-                  onClick={() => setIsSidebarOpen(false)}
-                >
-                  <span className="flex items-center">
-                    <AdjustIcon fontSize="small" className="mr-1" />
-                    {genre.name}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </aside>
+        <Sidebar
+          genres={genres}
+          selectedGenreId={selectedGenreId}
+          onClose={() => setIsSidebarOpen(false)}
+          isOpen={isSidebarOpen}
+        />
         {isSidebarOpen && (
           <div
             className="fixed inset-0 bg-black opacity-50 z-10 lg:hidden"
@@ -70,21 +55,30 @@ const FilterableMovieList = ({ movies, genres, selectedGenreId, currentPage }: F
           />
         )}
         <section className="w-full lg:w-3/4 md:ml-auto">
+          <div className="w-full mx-auto mb-10 sm:w-80">
+            <MovieSearch
+              searchInput={searchInput}
+              setSearchInput={setSearchInput}
+              handleSearchSubmit={handleSearchSubmit}
+            />
+          </div>
           <ul className="flex justify-center flex-wrap gap-4 list-none p-0">
             {movies.map((movie) => (
               <MovieCard key={movie.key} movie={movie} />
             ))}
           </ul>
-          <div className="flex justify-center mt-6">
-            <Pagination
-              count={100}
-              page={currentPage}
-              onChange={handlePageChange}
-              color="primary"
-              siblingCount={1}
-              boundaryCount={1}
-            />
-          </div>
+          {!searchInput && (
+            <div className="flex justify-center mt-6">
+              <Pagination
+                count={100}
+                page={currentPage}
+                onChange={handlePageChange}
+                color="primary"
+                siblingCount={1}
+                boundaryCount={1}
+              />
+            </div>
+          )}
         </section>
       </div>
     </>
