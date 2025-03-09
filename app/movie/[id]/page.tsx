@@ -22,7 +22,7 @@ export default async function MoviePage({ params }: MovieParams) {
                     <div className="flex justify-between gap-2 mb-10 text-yellow-400 font-bold uppercase max-md:flex-col">
                         <span className="flex items-center gap-2  max-sm:flex-col max-sm:items-start">
                             <RatingStars rating={movie.voteAverage} />
-                            <span className="lowercase">{movie.voteAverage} / {movie.voteCount} votes</span>
+                            <span className="lowercase">{movie.voteAverage.toString().slice(0, 3)} / {movie.voteCount} votes</span>
                         </span>
                         <span>{movie.language} / {movie.releaseDate}</span>
                     </div>

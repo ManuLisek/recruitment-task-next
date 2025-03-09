@@ -12,7 +12,7 @@ const RatingStars = ({ rating }: RatingStarsProps) => {
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
     return (
-        <div className="flex">
+        <div className="flex justify-center text-yellow-400">
             {Array.from({ length: fullStars }).map((_, i) => (
                 <StarIcon key={`full-${i}`} />
             ))}
