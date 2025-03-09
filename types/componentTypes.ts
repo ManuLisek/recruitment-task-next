@@ -13,3 +13,12 @@ export interface RatingStarsProps {
 export interface MovieGenresProps {
     movie: TransformedMovie;
 }
+
+export interface MovieCardProps {
+    movie: TransformedMovie;
+}
+
+export interface Genre {
+    id: number;
+    name: string;
+}

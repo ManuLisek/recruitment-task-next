@@ -7,10 +7,12 @@ const IMAGE_SIZE_300 = 'w300';
 const IMAGE_SIZE_500 = 'w500';
 
 export default {
-  getMoviesData: () =>
+  getMoviesData: (genreIds?: number[]) =>
     axios({
       method: 'GET',
-      url: 'https://api.themoviedb.org/3/discover/movie',
+      url: genreIds && genreIds.length > 0
+        ? `https://api.themoviedb.org/3/discover/movie?with_genres=${genreIds.join(',')}`
+        : 'https://api.themoviedb.org/3/discover/movie',
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
       },
@@ -30,6 +32,9 @@ export default {
                 src: `${IMAGE_BASE_URL}${IMAGE_SIZE_300}${movie.poster_path}`,
                 alt: movie.title,
               },
+
+              genre_ids: movie.genre_ids,
+              overview: movie.overview,
             })
           );
           return { movies: transformedMovies };
@@ -47,12 +52,12 @@ export default {
       transformResponse: [
         (response: string): GetMovieResponse => {
           const parsedResponse = JSON.parse(response) as ParsedMovieResponse;
-          const transformedMovie: TransformedMovie = {
+          const transformedMovie: any = {
             key: parsedResponse.id,
             title: parsedResponse.title,
             language: parsedResponse.original_language,
             popularity: parsedResponse.popularity,
-            voteAverage: parsedResponse.vote_average.toString().slice(0, 3),
+            voteAverage: parsedResponse.vote_average,
             voteCount: parsedResponse.vote_count,
             releaseDate: parsedResponse.release_date,
             poster: {
@@ -64,7 +69,7 @@ export default {
               alt: parsedResponse.title,
             },
             overview: parsedResponse.overview,
-            genres: parsedResponse.genres.map((genre: { id: number; name: string }) => genre.name),
+            genres: parsedResponse.genres,
           };
           return { movie: transformedMovie };
         },
@@ -97,6 +102,21 @@ export default {
               },
             }));
           return { actors: transformedActors };
+        },
+      ],
+    }),
+
+  getGenres: () =>
+    axios({
+      method: 'GET',
+      url: 'https://api.themoviedb.org/3/genre/movie/list',
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+      },
+      transformResponse: [
+        (response: string) => {
+          const parsedResponse = JSON.parse(response);
+          return { genres: parsedResponse.genres };
         },
       ],
     }),

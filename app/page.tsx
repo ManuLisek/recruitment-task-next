@@ -1,25 +1,17 @@
-import Link from 'next/link';
 import axiosConfig from '../api/axiosConfig';
+import FilterableMovieList from '@/components/FilterableMovieList';
+import { TransformedMovie, Genre } from '@/types/movieTypes';
 
-export default async function Home() {
-  const response = await axiosConfig.getMoviesData();
-  const movies = response.data.movies;
+export default async function Home({ searchParams }: { searchParams: { genre?: string } }) {
+  const selectedGenreId = searchParams.genre ? Number(searchParams.genre) : undefined;
+  const moviesResponse = await axiosConfig.getMoviesData(selectedGenreId ? [selectedGenreId] : undefined);
+  const genresResponse = await axiosConfig.getGenres();
+  const movies: TransformedMovie[] = moviesResponse.data.movies;
+  const genres: Genre[] = genresResponse.data.genres;
 
   return (
-    <div className="container mx-auto">
-      <main className="flex justify-items-center items-center flex-wrap gap-4 w-full">
-        {movies.map((movie: any) => (
-          <Link key={movie.key} href={`/movie/${movie.key}`} className="flex-grow w-1/5 p-4 border rounded">
-            <div>
-              <h3 className="text-xl font-bold">{movie.title}</h3>
-              <img src={movie.poster.src} alt={movie.poster.alt} className="w-full max-w-sm" />
-            </div>
-          </Link>
-        ))}
-      </main>
-      <footer className="flex gap-6 flex-wrap items-center justify-center">
-        Footer
-      </footer>
+    <div className="container mx-auto p-4">
+      <FilterableMovieList movies={movies} genres={genres} selectedGenreId={selectedGenreId} />
     </div>
   );
 }
