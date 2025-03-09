@@ -7,12 +7,14 @@ const IMAGE_SIZE_300 = 'w300';
 const IMAGE_SIZE_500 = 'w500';
 
 export default {
-  getMoviesData: (genreIds?: number[], page: number = 1) =>
+  getMoviesData: (genreIds?: number[], page: number = 1, query?: string) =>
     axios({
       method: 'GET',
-      url: genreIds && genreIds.length > 0
-        ? `https://api.themoviedb.org/3/discover/movie?with_genres=${genreIds.join(',')}&page=${page}`
-        : `https://api.themoviedb.org/3/discover/movie?page=${page}`,
+      url: query
+        ? `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&page=${page}`
+        : genreIds && genreIds.length > 0
+          ? `https://api.themoviedb.org/3/discover/movie?with_genres=${genreIds.join(',')}&page=${page}`
+          : `https://api.themoviedb.org/3/discover/movie?page=${page}`,
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
       },

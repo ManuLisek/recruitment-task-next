@@ -13,7 +13,7 @@ const MovieCard = ({ movie }: MovieCardProps) => {
         <Box component="li" sx={{ flexGrow: 1, maxWidth: '226px' }}>
             <Link href={`/movie/${movie.key}`} passHref style={{ width: '100%', textDecoration: 'none' }}>
                 <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                    <CardActionArea sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                    <CardActionArea sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'flex-end' }}>
                         {hasImage ? (
                             <CardMedia
                                 component="img"
