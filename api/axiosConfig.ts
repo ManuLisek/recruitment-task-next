@@ -25,18 +25,12 @@ export default {
             (movie: ParsedMovieResponse) => ({
               key: movie.id,
               title: movie.title,
-              language: movie.original_language,
-              popularity: movie.popularity,
               voteAverage: movie.vote_average,
-              voteCount: movie.vote_count,
-              releaseDate: movie.release_date,
               poster: {
                 src: `${IMAGE_BASE_URL}${IMAGE_SIZE_300}${movie.poster_path}`,
                 alt: movie.title,
               },
-
               genre_ids: movie.genre_ids,
-              overview: movie.overview,
             })
           );
           return { movies: transformedMovies };
@@ -58,16 +52,11 @@ export default {
             key: parsedResponse.id,
             title: parsedResponse.title,
             language: parsedResponse.original_language,
-            popularity: parsedResponse.popularity,
             voteAverage: parsedResponse.vote_average,
             voteCount: parsedResponse.vote_count,
             releaseDate: parsedResponse.release_date,
             poster: {
               src: `${IMAGE_BASE_URL}${IMAGE_SIZE_500}${parsedResponse.poster_path}`,
-              alt: parsedResponse.title,
-            },
-            backdrop: {
-              src: `${IMAGE_BASE_URL}${IMAGE_SIZE_500}${parsedResponse.backdrop_path}`,
               alt: parsedResponse.title,
             },
             overview: parsedResponse.overview,
