@@ -5,6 +5,7 @@ import { MovieParams } from '@/types/componentTypes';
 import RatingStars from '@/components/RatingStars';
 import MovieGenres from '@/components/MovieGenres';
 import BackButton from '@/components/BackButton';
+import { TransformedActor } from '@/types/actorTypes';
 
 export default async function MoviePage({ params }: MovieParams) {
     const { id } = params;
@@ -32,7 +33,7 @@ export default async function MoviePage({ params }: MovieParams) {
                     <MovieGenres movie={movie} />
                     <h2 className="text-2l font-bold mb-2">The cast</h2>
                     <ul className="flex gap-4 flex-wrap list-none p-0">
-                        {actors.map((actor: any) => (
+                        {actors.map((actor: TransformedActor) => (
                             <li key={actor.id} className="w-24">
                                 <img
                                     src={actor.profile.src}

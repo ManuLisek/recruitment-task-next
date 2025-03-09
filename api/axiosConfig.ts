@@ -1,18 +1,18 @@
 import axios from 'axios';
 import { GetMovieResponse, GetMoviesResponse, ParsedMovieResponse, TransformedMovie } from '@/types/movieTypes';
-import { GetActorsResponse, ParsedActor, TransformedActor } from '@/types/actorTypes';
+import { GetActorsResponse, ParsedActor } from '@/types/actorTypes';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/';
 const IMAGE_SIZE_300 = 'w300';
 const IMAGE_SIZE_500 = 'w500';
 
 export default {
-  getMoviesData: (genreIds?: number[]) =>
+  getMoviesData: (genreIds?: number[], page: number = 1) =>
     axios({
       method: 'GET',
       url: genreIds && genreIds.length > 0
-        ? `https://api.themoviedb.org/3/discover/movie?with_genres=${genreIds.join(',')}`
-        : 'https://api.themoviedb.org/3/discover/movie',
+        ? `https://api.themoviedb.org/3/discover/movie?with_genres=${genreIds.join(',')}&page=${page}`
+        : `https://api.themoviedb.org/3/discover/movie?page=${page}`,
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
       },
@@ -52,7 +52,7 @@ export default {
       transformResponse: [
         (response: string): GetMovieResponse => {
           const parsedResponse = JSON.parse(response) as ParsedMovieResponse;
-          const transformedMovie: any = {
+          const transformedMovie: TransformedMovie = {
             key: parsedResponse.id,
             title: parsedResponse.title,
             language: parsedResponse.original_language,
@@ -86,7 +86,7 @@ export default {
       transformResponse: [
         (response: string): GetActorsResponse => {
           const parsedResponse = JSON.parse(response);
-          const transformedActors: TransformedActor[] = parsedResponse.cast
+          const transformedActors = parsedResponse.cast
             .slice(0, 8)
             .map((actor: ParsedActor) => ({
               id: actor.id,
