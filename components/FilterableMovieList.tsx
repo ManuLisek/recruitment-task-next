@@ -9,13 +9,7 @@ import MovieSearch from "./MovieSearch";
 import Sidebar from "./Sidebar";
 import { FilterableMovieListProps } from "@/types/componentTypes";
 
-const FilterableMovieList: React.FC<FilterableMovieListProps> = ({
-  movies,
-  genres,
-  selectedGenreId,
-  currentPage,
-  initialQuery,
-}) => {
+const FilterableMovieList = ({ movies, genres, selectedGenreId, currentPage, initialQuery }: FilterableMovieListProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchInput, setSearchInput] = useState(initialQuery);
   const router = useRouter();
@@ -49,17 +43,11 @@ const FilterableMovieList: React.FC<FilterableMovieListProps> = ({
           isOpen={isSidebarOpen}
         />
         {isSidebarOpen && (
-          <div
-            className="fixed inset-0 bg-black opacity-50 z-10 lg:hidden"
-            onClick={() => setIsSidebarOpen(false)}
-          />
+          <div className="fixed inset-0 bg-black opacity-50 z-10 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
         )}
         <section className="w-full lg:w-3/4 md:ml-auto">
           <div className="w-full mx-auto mb-10 sm:w-80">
-            <MovieSearch
-              searchInput={searchInput}
-              setSearchInput={setSearchInput}
-              handleSearchSubmit={handleSearchSubmit}
+            <MovieSearch searchInput={searchInput} setSearchInput={setSearchInput} handleSearchSubmit={handleSearchSubmit}
             />
           </div>
           <ul className="flex justify-center flex-wrap gap-4 list-none p-0">

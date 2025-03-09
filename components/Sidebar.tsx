@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import AdjustIcon from '@mui/icons-material/Adjust';
 import { SidebarProps } from "@/types/componentTypes";
+import GenreListItem from "./GenreListItem";
 
 const Sidebar = ({ genres, selectedGenreId, onClose, isOpen }: SidebarProps) => {
   return (
@@ -20,18 +20,7 @@ const Sidebar = ({ genres, selectedGenreId, onClose, isOpen }: SidebarProps) => 
           </Link>
         </li>
         {genres.map((genre) => (
-          <li key={genre.id}>
-            <Link
-              href={`/?genre=${genre.id}`}
-              className={`block ${selectedGenreId === genre.id ? "text-rose-600" : "text-sky-800"}`}
-              onClick={onClose}
-            >
-              <span className="flex items-center">
-                <AdjustIcon fontSize="small" className="mr-1" />
-                {genre.name}
-              </span>
-            </Link>
-          </li>
+          <GenreListItem key={genre.id} genre={genre} selectedGenreId={selectedGenreId} onClose={onClose} />
         ))}
       </ul>
     </aside>

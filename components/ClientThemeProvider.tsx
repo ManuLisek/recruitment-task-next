@@ -4,32 +4,32 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 const theme = createTheme({
-    palette: {
-        mode: "dark",
-        background: {
-            default: "#0a0a0a",
-        },
-        text: {
-            primary: "#ededed",
-        },
-        primary: {
-            main: "#075985",
-        },
+  palette: {
+    mode: "dark",
+    background: {
+      default: "#0a0a0a",
     },
-    typography: {
-        fontFamily: "var(--font-geist-sans), sans-serif",
+    text: {
+      primary: "#ededed",
     },
+    primary: {
+      main: "#075985",
+    },
+  },
+  typography: {
+    fontFamily: "var(--font-geist-sans), sans-serif",
+  },
 });
 
 export default function ClientThemeProvider({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
 }
